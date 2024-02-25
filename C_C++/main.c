@@ -4,6 +4,7 @@
 #include <stdbool.h>
 
 #include "map.h"
+#include "main.h"
 
 int main()
 {
@@ -11,6 +12,16 @@ int main()
     int pos_x, pos_y;
     bool is_player_1 = true;
     int winner = 0;
+    int player_1_score = 0;
+    int player_2_score = 0;
+    int nbr_total_games = 0;
+    float percentage_player_1 = 0;
+    float percentage_player_2 = 0;
+    const char *start = "\nPlease select";
+    const char *end = " an other place!\n";
+    char concat[32];
+
+    snprintf(concat, sizeof(concat), "%s%s", start, end);    
 
     for (int i = 0; i < 3; i++)
         map[i] = (char *)malloc(3 * sizeof(char));
@@ -42,28 +53,51 @@ int main()
             is_player_1 = !is_player_1;
         }
         else
-            printf("\nPlease select an other place!\n");
+            printf("%s", concat);
 
         winner = check_map(map);
 
         if (winner == 1 || winner == 2)
         {
-            printf("\n|-------------------|");
-            printf("\n|                   |\n");
-            printf("| ");
+            char restart;
+            display_winner(winner);
+            nbr_total_games++;
             if (winner == 1)
-                printf("PLAYER 1 WON !!!!");
+                player_1_score++;
             else
-                printf("PLAYER 2 WON !!!!");
-            
-            printf(" |");
-            printf("\n|                   |\n");
-            printf("|-------------------|\n");
-            break;
+                player_2_score++;
+            percentage_player_1 = (float)player_1_score / nbr_total_games * 100;
+            percentage_player_2 = (float)player_2_score / nbr_total_games * 100;
+            printf("\nPlayer 1 score: %d, percentage of win: %.1f%%\nPlayer 2 score: %d, percentage of win: %.1f%%\n", player_1_score, percentage_player_1, player_2_score, percentage_player_2);
+            printf("\n\nWould you like to restart ? Yes : y | No : n\n");
+            scanf(" %c", &restart);
+            if (restart == 'n')
+                break;
+            else
+            {
+                for (int i = 0; i < 3; i++)
+                    for (int j = 0; j < 3; j++)
+                        map[i][j] = '.';
+                is_player_1 = true;
+            }
         }
-
         printf("\n---------------------\n\n");
     }
 
     return 0;
+}
+
+void display_winner(int winner)
+{
+    printf("\n|-------------------|");
+    printf("\n|                   |\n");
+    printf("| ");
+    if (winner == 1)
+        printf("PLAYER 1 WON !!!!");
+    else
+        printf("PLAYER 2 WON !!!!");
+
+    printf(" |");
+    printf("\n|                   |\n");
+    printf("|-------------------|\n");
 }
