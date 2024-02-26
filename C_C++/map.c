@@ -5,11 +5,17 @@ void print_map(char **map)
 {
     for (int i = 0; i < 3; i++)
     {
+        printf("---------------\n");
         for (int j = 0; j < 3; j++)
-            if (map[i][j] == '.')
+            if (map[i][j] == ' ')
+            {
+                printf("| ");
                 printf("%c", map[i][j]);
+                printf(" |");
+            }
             else
             {
+                printf("| ");
                 if (map[i][j] == 'X')
                 {
                     printf("\033[1;31m");
@@ -22,9 +28,11 @@ void print_map(char **map)
                     printf("%c", map[i][j]);
                     printf("\033[0m");
                 }
+                printf(" |");
             }
         printf("\n");
     }
+    printf("---------------\n");
     printf("\n");
 }
 

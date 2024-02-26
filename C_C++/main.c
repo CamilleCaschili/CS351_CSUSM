@@ -9,17 +9,13 @@
 int main()
 {
     char **map = (char **)malloc(3 * sizeof(char *));
-    int pos_x, pos_y;
     bool is_player_1 = true;
-    int winner = 0;
-    int player_1_score = 0;
-    int player_2_score = 0;
-    int nbr_total_games = 0;
-    float percentage_player_1 = 0;
-    float percentage_player_2 = 0;
+    int pos_x = 0, pos_y = 0, winner = 0, nbr_total_games = 0, player_1_score = 0, player_2_score = 0;
+    float percentage_player_1 = 0, percentage_player_2 = 0;
     const char *start = "\nPlease select";
     const char *end = " an other place!\n";
     char concat[32];
+    char restart;
 
     snprintf(concat, sizeof(concat), "%s%s", start, end);
 
@@ -28,7 +24,7 @@ int main()
 
     for (int i = 0; i < 3; i++)
         for (int j = 0; j < 3; j++)
-            map[i][j] = '.';
+            map[i][j] = ' ';
 
     while (1)
     {
@@ -42,12 +38,12 @@ int main()
         printf("Enter the row (between 1 and 3): ");
         scanf("%d", &pos_y);
 
-        if (is_player_1 && map[pos_x - 1][pos_y - 1] == '.')
+        if (is_player_1 && map[pos_x - 1][pos_y - 1] == ' ')
         {
             map[pos_x - 1][pos_y - 1] = 'X';
             is_player_1 = !is_player_1;
         }
-        else if (map[pos_x - 1][pos_y - 1] == '.')
+        else if (map[pos_x - 1][pos_y - 1] == ' ')
         {
             map[pos_x - 1][pos_y - 1] = 'O';
             is_player_1 = !is_player_1;
@@ -59,7 +55,6 @@ int main()
 
         if (winner == 1 || winner == 2)
         {
-            char restart;
             display_winner(winner);
             nbr_total_games++;
             if (winner == 1)
@@ -78,13 +73,12 @@ int main()
             {
                 for (int i = 0; i < 3; i++)
                     for (int j = 0; j < 3; j++)
-                        map[i][j] = '.';
+                        map[i][j] = ' ';
                 is_player_1 = true;
             }
         }
         printf("\n---------------------\n\n");
     }
-
     return 0;
 }
 
