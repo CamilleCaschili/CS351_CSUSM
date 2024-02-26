@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 
 #include "map.h"
 #include "main.h"
@@ -18,16 +19,17 @@ int main()
     for (int i = 0; i < 3; i++)
         map[i] = (char *)malloc(3 * sizeof(char));
 
-    snprintf(concat, sizeof(concat), "%s%s", start, end);
+    strcat(concat, start);
+    strcat(concat, end);
 
     initialize_map(map);
 
     while (1)
     {
         if (is_player_1)
-            printf("PLAYER 1 TURN\n\n");
+            print_colored_text("PLAYER 1 TURN\n\n", 1);
         else
-            printf("PLAYER 2 TURN\n\n");
+            print_colored_text("PLAYER 2 TURN\n\n", 2);
         print_map(map);
         get_player_input(&pos_x, &pos_y);
 
@@ -54,18 +56,15 @@ int main()
             else
             {
                 initialize_map(map);
-                is_player_1 = true;
+                if (nbr_total_games % 2 == 0)
+                    is_player_1 = true;
+                else
+                    is_player_1 = false;
             }
         }
         printf("\n---------------------\n\n");
     }
     return 0;
-}
-
-void initialize_map(char **map) {
-    for (int i = 0; i < 3; i++)
-        for (int j = 0; j < 3; j++)
-            map[i][j] = ' ';
 }
 
 void get_player_input(int *pos_x, int *pos_y) {
@@ -75,30 +74,15 @@ void get_player_input(int *pos_x, int *pos_y) {
     scanf("%d", pos_y);
 }
 
-void update_map_and_turn(char **map, bool *is_player_1, int pos_x, int pos_y, char *concat) {
-    if (*is_player_1 && map[pos_x - 1][pos_y - 1] == ' ')
-    {
-        map[pos_x - 1][pos_y - 1] = 'X';
-        *is_player_1 = !*is_player_1;
-    }
-    else if (map[pos_x - 1][pos_y - 1] == ' ')
-    {
-        map[pos_x - 1][pos_y - 1] = 'O';
-        *is_player_1 = !*is_player_1;
-    }
-    else
-        printf("%s", concat);
-}
-
 void display_winner(int winner)
 {
     printf("\n---------------------");
     printf("\n|                   |\n");
     printf("| ");
     if (winner == 1)
-        printf("PLAYER 1 WON !!!!");
+        print_colored_text("PLAYER 1 WON !!!!", 1);
     else
-        printf("PLAYER 2 WON !!!!");
+        print_colored_text("PLAYER 2 WON !!!!", 2);
     printf(" |");
     printf("\n|                   |\n");
     printf("---------------------\n");

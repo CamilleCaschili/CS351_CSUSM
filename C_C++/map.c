@@ -1,6 +1,8 @@
 #include <stdbool.h>
 #include <stdio.h>
 
+#include "map.h"
+
 void print_map(char **map)
 {
     for (int i = 0; i < 3; i++)
@@ -8,26 +10,14 @@ void print_map(char **map)
         printf("---------------\n");
         for (int j = 0; j < 3; j++)
             if (map[i][j] == ' ')
-            {
-                printf("| ");
-                printf("%c", map[i][j]);
-                printf(" |");
-            }
+                printf("| %c |", map[i][j]);
             else
             {
                 printf("| ");
                 if (map[i][j] == 'X')
-                {
-                    printf("\033[1;31m");
-                    printf("%c", map[i][j]);
-                    printf("\033[0m");
-                }
-                else if (map[i][j] == 'O')
-                {
-                    printf("\033[1;34m");
-                    printf("%c", map[i][j]);
-                    printf("\033[0m");
-                }
+                    print_colored_text("X", 1);
+                else
+                    print_colored_text("O", 2);
                 printf(" |");
             }
         printf("\n");
@@ -67,4 +57,43 @@ int check_map(char **map)
         return 2;
 
     return 0;
+}
+
+void initialize_map(char **map)
+{
+    for (int i = 0; i < 3; i++)
+        for (int j = 0; j < 3; j++)
+            map[i][j] = ' ';
+}
+
+void update_map_and_turn(char **map, bool *is_player_1, int pos_x, int pos_y, char *concat)
+{
+    if (*is_player_1 && map[pos_x - 1][pos_y - 1] == ' ')
+    {
+        map[pos_x - 1][pos_y - 1] = 'X';
+        *is_player_1 = !*is_player_1;
+    }
+    else if (map[pos_x - 1][pos_y - 1] == ' ')
+    {
+        map[pos_x - 1][pos_y - 1] = 'O';
+        *is_player_1 = !*is_player_1;
+    }
+    else
+        printf("%s", concat);
+}
+
+void print_colored_text(const char *text, int player)
+{
+    if (player == 1)
+    {
+        printf("\033[1;31m");
+        printf("%s", text);
+        printf("\033[0m");
+    }
+    else
+    {
+        printf("\033[1;34m");
+        printf("%s", text);
+        printf("\033[0m");
+    }
 }
