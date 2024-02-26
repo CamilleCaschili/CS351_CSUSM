@@ -66,8 +66,8 @@ int main()
                 player_1_score++;
             else
                 player_2_score++;
-            percentage_player_1 = (float)player_1_score / nbr_total_games * 100;
-            percentage_player_2 = (float)player_2_score / nbr_total_games * 100;
+            percentage_player_1 = percentage(player_1_score, nbr_total_games);
+            percentage_player_2 = percentage(player_2_score, nbr_total_games);
             printf("\nPlayer 1 score: %d, percentage of win: %.1f%%\nPlayer 2 score: %d, percentage of win: %.1f%%\n",
                    player_1_score, percentage_player_1, player_2_score, percentage_player_2);
             printf("\n\nWould you like to restart ? Yes : y | No : n\n");
@@ -101,4 +101,9 @@ void display_winner(int winner)
     printf(" |");
     printf("\n|                   |\n");
     printf("|-------------------|\n");
+}
+
+float percentage(int score, int total)
+{
+    return (float)score / total * 100;
 }
