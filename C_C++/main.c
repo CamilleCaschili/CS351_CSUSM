@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
 
@@ -12,19 +11,16 @@ int main()
     bool is_player_1 = true;
     int pos_x = 0, pos_y = 0, winner = 0, nbr_total_games = 0, player_1_score = 0, player_2_score = 0;
     float percentage_player_1 = 0, percentage_player_2 = 0;
-    const char *start = "\nPlease select";
-    const char *end = " an other place!\n";
+    const char *start = "\nPlease select", *end = " an other place!\n";
     char concat[32];
     char restart;
-
-    snprintf(concat, sizeof(concat), "%s%s", start, end);
 
     for (int i = 0; i < 3; i++)
         map[i] = (char *)malloc(3 * sizeof(char));
 
-    for (int i = 0; i < 3; i++)
-        for (int j = 0; j < 3; j++)
-            map[i][j] = ' ';
+    snprintf(concat, sizeof(concat), "%s%s", start, end);
+
+    initialize_map(map);
 
     while (1)
     {
@@ -33,23 +29,9 @@ int main()
         else
             printf("PLAYER 2 TURN\n\n");
         print_map(map);
-        printf("Enter the column (between 1 and 3): ");
-        scanf("%d", &pos_x);
-        printf("Enter the row (between 1 and 3): ");
-        scanf("%d", &pos_y);
+        get_player_input(&pos_x, &pos_y);
 
-        if (is_player_1 && map[pos_x - 1][pos_y - 1] == ' ')
-        {
-            map[pos_x - 1][pos_y - 1] = 'X';
-            is_player_1 = !is_player_1;
-        }
-        else if (map[pos_x - 1][pos_y - 1] == ' ')
-        {
-            map[pos_x - 1][pos_y - 1] = 'O';
-            is_player_1 = !is_player_1;
-        }
-        else
-            printf("%s", concat);
+        update_map_and_turn(map, &is_player_1, pos_x, pos_y, concat);
 
         winner = check_map(map);
 
@@ -71,9 +53,7 @@ int main()
                 break;
             else
             {
-                for (int i = 0; i < 3; i++)
-                    for (int j = 0; j < 3; j++)
-                        map[i][j] = ' ';
+                initialize_map(map);
                 is_player_1 = true;
             }
         }
@@ -82,19 +62,46 @@ int main()
     return 0;
 }
 
+void initialize_map(char **map) {
+    for (int i = 0; i < 3; i++)
+        for (int j = 0; j < 3; j++)
+            map[i][j] = ' ';
+}
+
+void get_player_input(int *pos_x, int *pos_y) {
+    printf("Enter the column (between 1 and 3): ");
+    scanf("%d", pos_x);
+    printf("Enter the row (between 1 and 3): ");
+    scanf("%d", pos_y);
+}
+
+void update_map_and_turn(char **map, bool *is_player_1, int pos_x, int pos_y, char *concat) {
+    if (*is_player_1 && map[pos_x - 1][pos_y - 1] == ' ')
+    {
+        map[pos_x - 1][pos_y - 1] = 'X';
+        *is_player_1 = !*is_player_1;
+    }
+    else if (map[pos_x - 1][pos_y - 1] == ' ')
+    {
+        map[pos_x - 1][pos_y - 1] = 'O';
+        *is_player_1 = !*is_player_1;
+    }
+    else
+        printf("%s", concat);
+}
+
 void display_winner(int winner)
 {
-    printf("\n|-------------------|");
+    printf("\n---------------------");
     printf("\n|                   |\n");
     printf("| ");
     if (winner == 1)
         printf("PLAYER 1 WON !!!!");
     else
         printf("PLAYER 2 WON !!!!");
-
     printf(" |");
     printf("\n|                   |\n");
-    printf("|-------------------|\n");
+    printf("---------------------\n");
 }
 
 float percentage(int score, int total)
