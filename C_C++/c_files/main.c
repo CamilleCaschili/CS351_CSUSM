@@ -68,9 +68,9 @@ int main()
 }
 
 void get_player_input(int *pos_x, int *pos_y) {
-    printf("Enter the column (between 1 and 3): ");
-    scanf("%d", pos_x);
     printf("Enter the row (between 1 and 3): ");
+    scanf("%d", pos_x);
+    printf("Enter the column (between 1 and 3): ");
     scanf("%d", pos_y);
 }
 

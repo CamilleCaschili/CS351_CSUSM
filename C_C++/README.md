@@ -4,11 +4,11 @@ To generate executables do the following:
 
 To run the tic tac toe game do the following:
 
-```./myProgram_c```
+```./exec_C```
 
 To launch the cpp executable do the following:
 
-```./myProgram_cpp```
+```./exec_CPP```
 
 To clean the directory do the following:
 

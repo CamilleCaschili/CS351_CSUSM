@@ -12,8 +12,8 @@ SRCS_CPP = cpp_files/main2.cpp\
 OBJS_C = $(SRCS_C:.c=.o)
 OBJS_CPP = $(SRCS_CPP:.cpp=.o)
 
-EXEC_C = myProgram_c
-EXEC_CPP = myProgram_cpp
+EXEC_C = exec_C
+EXEC_CPP = exec_CPP
 
 RED = \033[0;31m
 GREEN = \033[0;32m
@@ -41,6 +41,11 @@ $(EXEC_CPP): $(OBJS_CPP)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
+	@echo "$(RED)Cleaning up...$(NC)"
+	rm -f $(OBJS_C) $(OBJS_CPP)
+	@echo "$(GREEN)Cleanup complete!$(NC)"
+
+fclean:
 	@echo "$(RED)Cleaning up...$(NC)"
 	rm -f $(OBJS_C) $(OBJS_CPP) $(EXEC_C) $(EXEC_CPP)
 	@echo "$(GREEN)Cleanup complete!$(NC)"
