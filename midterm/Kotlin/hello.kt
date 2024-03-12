@@ -2,7 +2,7 @@ fun main() {
     var name = "Anakin"
     var surname = "Skywalker"
     var age = 10
-    var younglings = 7.6
+    var jediKilled = 90.5
 
     var fullname = concat_name(name, surname)
 
@@ -22,7 +22,7 @@ fun main() {
     } while (age < 45)
 
     println("$fullname, you are now a master in Kotlin! You receive an A on this assignement!")
-    println("Wait, you killed $younglings younglings!")
+    println("Wait, you killed $jediKilled % of the Jedi!")
 }
 
 fun concat_name(name: String, surname: String): String {
