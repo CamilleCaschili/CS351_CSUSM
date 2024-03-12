@@ -1,3 +1,3 @@
-kotlinc HelloWorld.kt -include-runtime -d HelloWorld.jar
+kotlinc hello.kt -include-runtime -d hello.jar
 
-java -jar HelloWorld.jar
+java -jar hello.jar
