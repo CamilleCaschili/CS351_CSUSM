@@ -4,7 +4,7 @@ fn add_one(x: i32) -> i32 {
 
 mod hello {
     pub fn quiz() {
-        println!("You have ton answer to this question: What's the best programming language between those three ?\nRust, C++ or Cobol\nThere is one and only one correct answer.");
+        println!("You have ton answer to this question: What's the best programming language between those three ?\nRust, C or Cobol\nThere is one and only one correct answer.");
     }
 }
 
